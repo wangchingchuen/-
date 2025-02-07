@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>都可以茶飲</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .navbar .logo {
+            height: 45px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            padding: 5px 10px;
+        }
+        .nav-links .highlight {
+            background: orange;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        .slideshow-container {
+            margin: 100px auto 0;
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .slides {
+            display: none;
+            width: 100%;
+        }
+        .fade {
+            animation: fade 1.5s;
+        }
+        @keyframes fade {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="../images/logo.png" alt="CoCo Logo" class="logo">
+        <div class="nav-links">
+            <a href="story.html">品牌故事</a>
+            <a href="stores.html">附近店家</a>
+            <a href="products.html">商品介紹</a>
+            <a href="offers.html">限時優惠</a>
+            <a href="order.html" class="highlight">線上下單</a>
+        </div>
+    </div>
+    
+    <div class="slideshow-container">
+        <img class="slides fade" src="../images/image01.png" alt="Slide 1">
+        <img class="slides fade" src="../images/image02.png" alt="Slide 2">
+        <img class="slides fade" src="../images/image03.png" alt="Slide 3">
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        function showSlides() {
+            let slides = document.getElementsByClassName("slides");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 5000);
+        }
+        showSlides();
+    </script>
+</body>
+</html>
+
