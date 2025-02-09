@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>都可以點單</title>
+    <title>都可以點單系統</title>
     <style>
         * {
             margin: 0;
@@ -11,91 +11,240 @@
             box-sizing: border-box;
         }
         body {
+            display: flex;
+            flex-direction: column;
             font-family: Arial, sans-serif;
+        }
+        /* 導覽列 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .navbar .logo {
+            height: 45px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            padding: 5px 10px;
+        }
+        .nav-links .highlight {
+            background: orange;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        /* 點餐選單 */
+        .main-content {
+            display: flex;
+            margin-top: 80px;
+        }
+        .sidebar {
+            width: 250px;
+            background: #f8d7a8;
+            padding: 20px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            margin-bottom: 20px;
+        }
+        .menu-item {
+            padding: 10px;
+            background: white;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .menu-item:hover {
+            background: #f4a261;
+            color: white;
+        }
+        .content {
+            flex-grow: 1;
             padding: 20px;
             text-align: center;
         }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
         .product {
-            display: inline-block;
             border: 1px solid #ddd;
             border-radius: 10px;
             padding: 15px;
-            margin: 10px;
             width: 200px;
+            text-align: center;
         }
-        .quantity-controls {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin-top: 10px;
-        }
-        .cart-button, .checkout-button {
-            background: orange;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        .hidden { display: none; }
         .checkout-button {
             margin-top: 20px;
+            padding: 10px 20px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
-<body>
-    <h1>點單區</h1>
-    <div id="products">
-        <div class="product" data-name="珍珠奶茶" data-price="50">
-            <img src="product1.jpg" alt="Product 1" width="100%">
-            <p>珍珠奶茶 - $50</p>
-            <div class="quantity-controls">
-                <button onclick="changeQuantity(this, -1)">-</button>
-                <span class="quantity">1</span>
-                <button onclick="changeQuantity(this, 1)">+</button>
-            </div>
-            <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+
+<body onload="showCategory('new')">
+<!-- 新品推薦當第一頁 -->
+    <!-- 導覽列 -->
+    <div class="navbar">
+        <img src="../images/logo.png" alt="CoCo Logo" class="logo">
+        <div class="nav-links">
+            <a href="story.html">品牌故事</a>
+            <a href="stores.html">附近店家</a>
+            <a href="products.html">商品介紹</a>
+            <a href="offers.html">限時優惠</a>
+            <a href="order.html" class="highlight">線上下單</a>
         </div>
-        <!-- Add more products as needed -->
-        <div class="product" data-name="奶茶三兄弟" data-price="65">
-            <img src="product1.jpg" alt="Product 1" width="100%">
-            <p>奶茶三兄弟 - $65</p>
-            <div class="quantity-controls">
-                <button onclick="changeQuantity(this, -1)">-</button>
-                <span class="quantity">1</span>
-                <button onclick="changeQuantity(this, 1)">+</button>
+    </div>
+    <div class="main-content">
+        <div class="sidebar">
+        <!-- 左側選單 -->
+            <h2>菜單</h2>
+            <div class="menu-item" onclick="showCategory('new')">新品推薦</div>
+            <div class="menu-item" onclick="showCategory('berry')">莓果系列</div>
+            <div class="menu-item" onclick="showCategory('milk_tea')">香濃奶茶</div>
+            <div class="menu-item" onclick="showCategory('tea')">醇香茶品</div>
+            <div class="menu-item" onclick="showCategory('coffee')">嚴選咖啡</div>
+            <div class="menu-item" onclick="showCategory('milk')">濃醇鮮乳</div>
+            <div class="menu-item" onclick="showCategory('fruit_tea')">鮮調果茶</div>
+        </div>
+        
+        <div class="content">
+        <!-- 右側內容 (新品推薦當第一頁) -->
+            <h1 id="category-title">新品推薦</h1>
+            <div id="new" class="products">
+                <!-- 新品推薦 -->
+                <div class="product" data-name="冬韻擂焙珍奶" data-price="70">
+                    <img src="../images/products/new1.jpg" alt="冬韻擂焙珍奶" width="100%">
+                    <p>冬韻擂焙珍奶 - $70</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+                <div class="product" data-name="葡萄柚果粒茶" data-price="70">
+                    <img src="../images/products/new2.jpg" alt="葡萄柚果粒茶" width="100%">
+                    <p>葡萄柚果粒茶 - $70</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+                <div class="product" data-name="檸檬奇遇桔" data-price="55">
+                    <img src="../images/products/new3.jpg" alt="檸檬奇遇桔" width="100%">
+                    <p>檸檬奇遇桔 - $55</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+                <div class="product" data-name="芒裡偷閒奇亞籽" data-price="55">
+                    <img src="../images/products/new4.jpg" alt="芒裡偷閒奇亞籽" width="100%">
+                    <p>芒裡偷閒奇亞籽 - $55</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
             </div>
-            <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+            
+            <!-- 莓果系列 -->
+            <div id="berry" class="products hidden">
+                <div class="product" data-name="莓莓派對" data-price="70">
+                    <img src="../images/products/berry1.jpg" alt="莓莓派對" width="100%">
+                    <p>莓莓派對 - $70</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+                <div class="product" data-name="莓莓戀人" data-price="75">
+                    <img src="../images/products/berry2.jpg" alt="莓莓戀人" width="100%">
+                    <p>莓莓戀人 - $75</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+            </div>
+
+            <!-- 香濃奶茶 -->
+            <div id="milk_tea" class="products hidden">
+                <div class="product" data-name="珍珠奶茶" data-price="50">
+                    <img src="../images/products/milktea1.jpg" alt="珍珠奶茶" width="100%">
+                    <p>珍珠奶茶 - $50</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+            </div>
+
+            <!-- 醇香茶品 -->
+            <div id="tea" class="products hidden">
+                <div class="product" data-name="四季春青茶" data-price="30">
+                    <img src="../images/products/tea1.jpg" alt="四季春青茶" width="100%">
+                    <p>四季春青茶 - $30</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+            </div>
+
+            <!-- 嚴選咖啡 -->
+            <div id="coffee" class="products hidden">
+                <div class="product" data-name="美式咖啡(16oz)" data-price="45">
+                    <img src="../images/products/coffee1.jpg" alt="美式咖啡(16oz)" width="100%">
+                    <p>美式咖啡(16oz) - $45</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+            </div>
+
+            <!-- 濃醇鮮乳 -->
+            <div id="milk" class="products hidden">
+                <div class="product" data-name="英式鮮奶茶" data-price="55">
+                    <img src="../images/products/milk1.jpg" alt="英式鮮奶茶" width="100%">
+                    <p>英式鮮奶茶 - $55</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+            </div>
+
+            <!-- 鮮調果茶 -->
+            <div id="fruit_tea" class="products hidden">
+                <div class="product" data-name="百香綠茶" data-price="40">
+                    <img src="../images/products/fruittea1.jpg" alt="百香綠茶" width="100%">
+                    <p>百香綠茶 - $40</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+            </div>
+            <button class="checkout-button" onclick="checkout()">結帳喔</button>
         </div>
     </div>
     
-    <button class="checkout-button" onclick="checkout()">Checkout</button>
-    
     <script>
+        // 和第一版還是差不多內容
+        //初始化購物車
         let cart = [];
 
-        function changeQuantity(button, change) {
-            let quantitySpan = button.parentElement.querySelector(".quantity");
-            let quantity = parseInt(quantitySpan.innerText) + change;
-            if (quantity > 0) {
-                quantitySpan.innerText = quantity;
-            }
+        //左側選單內容切換時將右側內容跟著更換
+        function showCategory(category) {
+            document.querySelectorAll('.products').forEach(div => div.classList.add('hidden'));
+            document.getElementById(category).classList.remove('hidden');
+            document.getElementById("category-title").innerText = document.querySelector(".menu-item[onclick=\"showCategory('" + category + "')\"]").innerText;
         }
 
+        //將品項加入購物車
         function addToCart(button) {
             let product = button.parentElement;
             let name = product.getAttribute("data-name");
             let price = parseFloat(product.getAttribute("data-price"));
-            let quantity = parseInt(product.querySelector(".quantity").innerText);
-            
             let existing = cart.find(item => item.name === name);
             if (existing) {
-                existing.quantity += quantity;
+                existing.quantity++;
             } else {
-                cart.push({ name, price, quantity });
+                cart.push({ name, price, quantity: 1 });
             }
             alert(name + " 已加入購物車！");
         }
 
+        //結帳
         function checkout() {
             if (cart.length === 0) {
                 alert("購物車是空的！");

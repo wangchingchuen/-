@@ -1,0 +1,117 @@
+<!-- 第一版內容 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>都可以點單</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        .product {
+            display: inline-block;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            width: 200px;
+        }
+        .quantity-controls {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .cart-button, .checkout-button {
+            background: orange;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .checkout-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>點單區</h1>
+    <div id="products">
+        <div class="product" data-name="珍珠奶茶" data-price="50">
+            <img src="product1.jpg" alt="Product 1" width="100%">
+            <p>珍珠奶茶 - $50</p>
+            <div class="quantity-controls">
+                <button onclick="changeQuantity(this, -1)">-</button>
+                <span class="quantity">1</span>
+                <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+            <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+        </div>
+        <!-- Add more products as needed -->
+        <div class="product" data-name="奶茶三兄弟" data-price="65">
+            <img src="product1.jpg" alt="Product 1" width="100%">
+            <p>奶茶三兄弟 - $65</p>
+            <div class="quantity-controls">
+                <button onclick="changeQuantity(this, -1)">-</button>
+                <span class="quantity">1</span>
+                <button onclick="changeQuantity(this, 1)">+</button>
+            </div>
+            <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+        </div>
+    </div>
+    
+    <button class="checkout-button" onclick="checkout()">Checkout</button>
+    
+    <script>
+        let cart = [];
+
+        function changeQuantity(button, change) {
+            let quantitySpan = button.parentElement.querySelector(".quantity");
+            let quantity = parseInt(quantitySpan.innerText) + change;
+            if (quantity > 0) {
+                quantitySpan.innerText = quantity;
+            }
+        }
+
+        function addToCart(button) {
+            let product = button.parentElement;
+            let name = product.getAttribute("data-name");
+            let price = parseFloat(product.getAttribute("data-price"));
+            let quantity = parseInt(product.querySelector(".quantity").innerText);
+            
+            let existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.quantity += quantity;
+            } else {
+                cart.push({ name, price, quantity });
+            }
+            alert(name + " 已加入購物車！");
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("購物車是空的！");
+                return;
+            }
+            let summary = "您購買了：\n";
+            let total = 0;
+            cart.forEach(item => {
+                summary += `${item.name} x${item.quantity} - $${item.price * item.quantity}\n`;
+                total += item.price * item.quantity;
+            });
+            summary += `\n總金額: $${total}`;
+            alert(summary);
+        }
+    </script>
+</body>
+</html>
