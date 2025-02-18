@@ -107,7 +107,9 @@
 <!-- 新品推薦當第一頁 -->
     <!-- 導覽列 -->
     <div class="navbar">
-        <img src="../images/logo.png" alt="CoCo Logo" class="logo">
+        <a href="index.html">
+            <img src="../images/logo.png" alt="CoCo Logo" class="logo">
+        </a>
         <div class="nav-links">
             <a href="story.html">品牌故事</a>
             <a href="stores.html">附近店家</a>
@@ -172,8 +174,18 @@
 
             <!-- 香濃奶茶 -->
             <div id="milk_tea" class="products hidden">
+                <div class="product" data-name="茉香奶茶" data-price="40">
+                    <img src="../images/products/milktea1.jpg" alt="茉香奶茶" width="100%">
+                    <p>茉香奶茶 - $40</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
+                <div class="product" data-name="阿薩姆奶茶" data-price="40">
+                    <img src="../images/products/milktea2.jpg" alt="阿薩姆奶茶" width="100%">
+                    <p>阿薩姆奶茶 - $40</p>
+                    <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
+                </div>
                 <div class="product" data-name="珍珠奶茶" data-price="50">
-                    <img src="../images/products/milktea1.jpg" alt="珍珠奶茶" width="100%">
+                    <img src="../images/products/milktea3.jpg" alt="珍珠奶茶" width="100%">
                     <p>珍珠奶茶 - $50</p>
                     <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
                 </div>
@@ -187,6 +199,7 @@
                     <button class="cart-button" onclick="addToCart(this)">加入購物車</button>
                 </div>
             </div>
+            
 
             <!-- 嚴選咖啡 -->
             <div id="coffee" class="products hidden">
